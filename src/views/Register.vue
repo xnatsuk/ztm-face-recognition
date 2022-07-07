@@ -1,34 +1,36 @@
-<script setup></script>
+<script setup>
+import { reactive } from 'vue';
+import { useFormValidation } from '../modules/ValidateForm.js';
+import { submitButtonState } from '../modules/ButtonState.js';
+
+import EmailForm from '../components/EmailForm.vue';
+import PasswordForm from '../components/PasswordForm.vue';
+
+let input = reactive({
+   email: '',
+   password: ''
+})
+
+const registerButton = () => {
+   console.log(input);
+}
+
+const { errors } = useFormValidation();
+const { isRegisterButtonDisabled } = submitButtonState(input, errors);
+</script>
 
 <template>
    <div class="hero min-h-screen bg-base-200">
-      <div class="hero-content flex-col lg:flex-row-reverse">
-         <div class="card flex-shrink-0 w-full max-w-sm shadow-lg bg-base-100">
-            <div class="card-body">
-               <div class="form-control">
-                  <label class="label">
-                     <span class="label-text">Email</span>
-                  </label>
-                  <input type="text" placeholder="email" class="input input-bordered" />
-               </div>
-               <div class="form-control">
-                  <label class="label">
-                     <span class="label-text">Username</span>
-                  </label>
-                  <input type="text" placeholder="username" class="input input-bordered" />
-               </div>
-               <div class="form-control">
-                  <label class="label">
-                     <span class="label-text">Password</span>
-                  </label>
-                  <input type="text" placeholder="password" class="input input-bordered" />
-               </div>
-               <div class="form-control mt-6">
-                  <button class="btn btn-primary">Register</button>
-                  <label class="label">
-                     <a href="./Login.vue" class="label-text-alt link link-hover">Already a user?</a>
-                  </label>
-               </div>
+      <div class="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
+         <div class="card-body">
+            <EmailForm v-model="input.email" />
+            <PasswordForm v-model="input.password" />
+            <div class="form-control mt-6">
+               <button class="btn btn-primary" :disabled="isRegisterButtonDisabled"
+                  @click="registerButton">Register</button>
+               <label class="label">
+                  <a href="/login" class="label-text-alt link link-hover">Already a user?</a>
+               </label>
             </div>
          </div>
       </div>

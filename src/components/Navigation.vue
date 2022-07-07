@@ -10,7 +10,9 @@ const loggedIn = localStorage.getItem('user');
     <div class="navbar-start">
       <label class="btn btn-ghost btn-circle avatar">
         <div class="rounded-full">
-          <img src="" alt="logo" href='/home' />
+          <a href='/'>
+            <img src="../assets/brain.png" alt="logo" />
+          </a>
         </div>
       </label>
     </div>
@@ -18,7 +20,7 @@ const loggedIn = localStorage.getItem('user');
       <a class="text-2xl text-current">Smart Brain</a>
     </div>
     <div class="navbar-end">
-      <p class="link link-hover link-accent">Sign In</p>
+      <a href="/register" class="link link-hover link-accent">Register</a>
       <label class="swap swap-rotate pl-5">
         <input type="checkbox" />
         <svg class="swap-on fill-current w-10 h-10" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">

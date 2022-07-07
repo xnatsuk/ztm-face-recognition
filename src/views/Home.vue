@@ -5,7 +5,6 @@ import Rank from '../components/Rank.vue';
 </script>
 
 <template>
-  <Navigation />
   <FaceRecognition />
   <Rank />
 </template>
