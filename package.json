@@ -9,12 +9,17 @@
     "test": "vitest"
   },
   "dependencies": {
+    "axios": "^0.27.2",
     "daisyui": "^2.17.0",
+    "pinia": "^2.0.16",
+    "vee-validate": "^4.6.2",
     "vue": "^3.2.25",
-    "vue-router": "4"
+    "vue-router": "4",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^2.3.3",
+    "@vueuse/core": "^8.9.4",
     "autoprefixer": "^10.4.7",
     "postcss": "^8.4.14",
     "tailwindcss": "^3.1.4",
