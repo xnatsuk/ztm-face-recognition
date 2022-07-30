@@ -4,9 +4,10 @@ import Navigation from './components/Navigation.vue';
 </script>
 
 <template>
-  <Navigation  />
-  <RouterView  />
+  <Navigation />
+  <RouterView />
 </template>
 
 <style>
+@import '@/assets/style.css';
 </style>
