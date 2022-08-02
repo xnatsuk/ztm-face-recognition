@@ -1,7 +1,8 @@
 import { defineStore } from 'pinia';
 
 import router from '@/router';
-import AuthService, { local } from '@/services/auth.service';
+import AuthService from '@/services/auth.service';
+import { local } from '@/services/local.service';
 
 const user = local.value.data;
 const initialState = user ? { loggedIn: true, user: user.name } : { loggedIn: false, user: null };
@@ -38,7 +39,10 @@ export const useAuthStore = defineStore('auth', {
     },
 
     logout() {
-      return AuthService.logout();
+      AuthService.logout();
+      this.loggedIn = false;
+      this.user = null;
+      router.push('/login');
     },
   },
 });

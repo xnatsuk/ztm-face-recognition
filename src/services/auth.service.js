@@ -1,13 +1,11 @@
 import axios from 'axios';
-import { useLocalStorage } from '@vueuse/core';
 
-const API_URL = import.meta.env.VITE_BASE_URL;
+import { local } from '@/services/local.service';
 
-export const local = useLocalStorage('user', { data: null });
-
+// const API_URL = import.meta.env.VITE_BASE_URL;
 class AuthService {
-  login(user) {
-    return axios
+  async login(user) {
+    return await axios
       .post(`/api/login`, {
         email: user.email,
         password: user.password,
