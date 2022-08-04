@@ -2,7 +2,6 @@
 import { onMounted } from 'vue';
 import { themeChange } from 'theme-change';
 import { useAuthStore } from '@/stores/auth.store';
-import { theme } from '../services/local.service';
 
 onMounted(() => {
   themeChange(false);
