@@ -1,82 +1,24 @@
 <script setup>
 import { ref, watch } from 'vue';
+import { fetchImageData, calculateFaceLocation, displayFaceBox } from '@/services/clarifai.service';
+import { useUserStore } from '@/stores/user.store';
 
-const API_URL = 'https://api.clarifai.com/v2/models/face-detection/outputs';
-const USER_ID = import.meta.env.VITE_USER_ID;
-const PAT = import.meta.env.VITE_PAT;
-const APP_ID = import.meta.env.VITE_APP_ID;
+const imageUrl = ref('');
+const imageRef = ref(null);
+const listFace = ref([]);
 
-let imageUrl = ref('');
-let imageRef = ref(null);
-let listFace = ref([]);
+const onClick = async () => {
+  const userStore = useUserStore();
+  await fetchImageData(imageUrl).then((response) => {
+    displayFaceBox(calculateFaceLocation(response, imageRef), listFace);
+    userStore.updateScore();
+  });
+};
 
 // clears the provided image and it's face boxes everytime the url is changed.
 watch(imageUrl, () => {
   listFace.value = [];
 });
-
-const fetchData = async () => {
-  const raw = JSON.stringify({
-    user_app_id: {
-      user_id: USER_ID,
-      app_id: APP_ID,
-    },
-    inputs: [{ data: { image: { url: imageUrl.value } } }],
-  });
-
-  const requestOptions = {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      Authorization: 'Key ' + PAT,
-    },
-    body: raw,
-  };
-
-  const response = await fetch(API_URL, requestOptions);
-  if (!response.ok) throw new Error('An error occurred: ' + response.status);
-
-  return await response.json();
-};
-
-const calculateFaceLocation = async () => {
-  let faceArray = [];
-  let faceBox = await fetchData();
-  const image = imageRef.value; // access to <img> to manipulate the DOM.
-  const width = Number(image.width);
-  const height = Number(image.height);
-  for (let faceObject of faceBox.outputs[0].data.regions) {
-    let box = faceObject.region_info.bounding_box;
-    faceArray.push({
-      topRow: box.top_row * height,
-      rightCol: width - box.right_col * width,
-      bottomRow: height - box.bottom_row * height,
-      leftCol: box.left_col * width,
-    });
-  }
-  console.log(faceArray);
-  // return an array of objects in which we calculated the value
-  // of face boxes arround each face recognized by the API.
-  return faceArray;
-};
-
-const onClick = async () => {
-  const displayFaceBox = async () => {
-    let faceArray = await calculateFaceLocation();
-    listFace.value = [];
-    for (let face of faceArray) {
-      let style = {
-        top: face.topRow + 'px',
-        right: face.rightCol + 'px',
-        bottom: face.bottomRow + 'px',
-        left: face.leftCol + 'px',
-      };
-      listFace.value.push({ style });
-    }
-  };
-
-  await displayFaceBox();
-};
 </script>
 
 <template>
