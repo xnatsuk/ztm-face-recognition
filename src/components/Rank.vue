@@ -1,19 +1,18 @@
 <script setup>
 import { useAuthStore } from '@/stores/auth.store';
+import { useUserStore } from '@/stores/user.store.js';
+import { storeToRefs } from 'pinia';
 
 const auth = useAuthStore();
+const user = useUserStore();
+const { getScore } = storeToRefs(user);
 </script>
 
 <template>
   <div v-show="auth.loggedIn == true" class="stats shadow-lg flex flex-col sm:flex-row">
     <div class="stat place-items-center sm:justify-items-center">
-      <div class="stat-figure text-secondary">
-        <div class="avatar online">
-          <div class="w-16 rounded-full">
-            <img src="https://api.lorem.space/image/face?w=128&h=128" />
-          </div>
-        </div>
-      </div>
+      <div class="stat-figure text-secondary"></div>
+      <div class="stat-title">Name</div>
       <div class="stat-value">{{ auth.user }}</div>
     </div>
     <div class="stat place-items-center">
@@ -28,7 +27,7 @@ const auth = useAuthStore();
         </svg>
       </div>
       <div class="stat-title">Total Score</div>
-      <div class="stat-value text-secondary">2.6M</div>
+      <div class="stat-value text-secondary">{{ getScore }} Points</div>
     </div>
   </div>
 </template>
