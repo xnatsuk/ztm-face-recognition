@@ -1,39 +1,34 @@
 <script setup>
-import { reactive } from "vue";
-import { useFormValidation } from "../modules/ValidateForm.js";
-import { submitButtonState } from "../modules/ButtonState.js";
+import { useAuthStore } from '../stores/auth.store';
+import InputField from '../components/InputField.vue';
 
-import EmailForm from "../components/EmailForm.vue";
-import PasswordForm from "../components/PasswordForm.vue";
+import { Form } from 'vee-validate';
+import * as Yup from 'yup';
 
-let input = reactive({
-  email: "",
-  password: "",
+const schema = Yup.object().shape({
+  email: Yup.string().email().required('email is required'),
+  password: Yup.string().min(8).required('password is required'),
 });
 
-const registerButton = () => {
-  console.log(input);
-};
+const onSubmit = (values) => {
+  const authStore = useAuthStore();
+  const { email, password } = values;
 
-const { errors } = useFormValidation();
-const { isRegisterButtonDisabled } = submitButtonState(input, errors);
+  authStore.login({ email, password });
+};
 </script>
 
 <template>
   <div class="hero min-h-screen bg-base-200">
     <div class="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
       <div class="card-body">
-        <EmailForm v-model="input.email" />
-        <PasswordForm v-model="input.password" />
-        <div class="form-control mt-6">
-          <button
-            class="btn btn-primary"
-            :disabled="isRegisterButtonDisabled"
-            @click="registerButton"
-          >
-            Login
-          </button>
-        </div>
+        <Form @submit="onSubmit" :validation-schema="schema">
+          <InputField name="email" type="email" label="Email" placeholder="Your email address" />
+          <InputField name="password" type="password" label="Password" placeholder="Your password" />
+          <div class="form-control mt-6">
+            <button class="btn btn-primary" type="submit">Login</button>
+          </div>
+        </Form>
       </div>
     </div>
   </div>

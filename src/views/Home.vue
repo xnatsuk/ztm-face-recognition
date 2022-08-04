@@ -1,5 +1,4 @@
 <script setup>
-import Navigation from '../components/Navigation.vue';
 import FaceRecognition from '../components/FaceRecognition.vue';
 import Rank from '../components/Rank.vue';
 </script>
@@ -9,5 +8,4 @@ import Rank from '../components/Rank.vue';
   <Rank />
 </template>
 
-<style>
-</style>
+<style></style>
