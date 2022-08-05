@@ -1,28 +1,10 @@
 import axios from 'axios';
 
-const API_URL = 'https://api.clarifai.com/v2/models/face-detection/outputs';
-const USER_ID = import.meta.env.VITE_USER_ID;
-const PAT = import.meta.env.VITE_PAT;
-const APP_ID = import.meta.env.VITE_APP_ID;
-
 export async function fetchImageData(imageUrl) {
   return await axios
-    .post(
-      API_URL,
-      {
-        user_app_id: {
-          user_id: USER_ID,
-          app_id: APP_ID,
-        },
-        inputs: [{ data: { image: { url: imageUrl.value } } }],
-      },
-      {
-        headers: {
-          Accept: 'application/json',
-          Authorization: `Key ${PAT}`,
-        },
-      }
-    )
+    .post(`api/image`, {
+      imageUrl: imageUrl.value,
+    })
     .then((response) => {
       return response.data;
     })
