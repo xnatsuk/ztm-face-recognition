@@ -5,10 +5,8 @@ import Home from '../views/Home.vue';
 import Login from '../views/Login.vue';
 import Register from '../views/Register.vue';
 
-const BASE_URL = import.meta.env.VITE_BASE_URL;
-
 const router = createRouter({
-  history: createWebHistory(`${BASE_URL}`),
+  history: createWebHistory(),
   routes: [
     {
       path: '/',
